@@ -23,7 +23,8 @@ const addClient=async (req, res) => {
   
       res.status(201).json({
         status:"success",
-          message:"Added Client!"
+          message:"Added Client!",
+          client:client
       });
     } catch (error) {
       console.error(error);
@@ -65,7 +66,6 @@ const loginClient=async (req,res)=>{
             });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             message: "Server Error!",
         });

@@ -26,6 +26,12 @@ app.use("/lawyer",lawyersRouter)
 const clientRouter=require("./routes/ClientRoutes")
 app.use("/client",clientRouter)
 
+const chatRouter=require("./routes/ChatRoutes")
+app.use("/chat",chatRouter)
+
+const messageRouter=require("./routes/MessageRoutes")
+app.use("/message",messageRouter)
+
 app.listen(process.env.PORT,()=>{
     console.log(`server started on port ${process.env.PORT}`);
 })

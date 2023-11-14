@@ -24,7 +24,8 @@ const addLawyer=async (req, res) => {
   
       res.status(201).json({
         status:"success",
-          message:"Added Lawyer"
+          message:"Added Lawyer",
+          lawyer:lawyer
       });
     } catch (error) {
       console.error(error);
@@ -74,4 +75,51 @@ const loginLawyer=async (req,res)=>{
     }
 
 }
-  module.exports={addLawyer,loginLawyer}
+
+
+const getOneLawyer=async (req,res)=>{
+  try {
+      const id = req.params.id;
+
+      const lawyer = await Laywer.findOne({ id });
+
+      if (!lawyer) {
+          return res.status(401).json({
+              status: "fail",
+              message: "Invalid email or password",
+          });
+      }else{
+        return res.status(200).json({
+          status:"success",
+          lawyer:lawyer
+        })
+      }
+
+     
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({
+          message: "Server Error!",
+      });
+  }
+
+}
+
+
+const getTopLawyers = async (req, res) => {
+  try {
+    const topLawyers = await Laywer.find({rating:{$exists:true}}).sort({ reviews: -1 }).limit(req.body.limit);
+
+    res.status(200).json({
+      status: "success",
+      lawyers: topLawyers,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server Error!",
+    });
+  }
+};
+
+  module.exports={addLawyer,loginLawyer,getOneLawyer,getTopLawyers}

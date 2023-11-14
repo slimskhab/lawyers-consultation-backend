@@ -4,20 +4,18 @@ const router=express.Router();
 
 
 const{
-  addLawyer,loginLawyer
+  addLawyer,loginLawyer,getOneLawyer, getTopLawyers
 } = require("../controllers/LawyersController")
 router.get("/",(req,res)=>{
 
 })
 
-router.get("/:id",(req,res)=>{
-    const id =req.params.id;
-})
+router.get("/:id",getOneLawyer)
+router.post("/",getTopLawyers)
 
 router.post("/login",loginLawyer);
 
-router.post("/",addLawyer);
-
+router.post("/signup",addLawyer);
 
 router.patch("/:id",(req,res)=>{
 
