@@ -72,4 +72,30 @@ const loginClient=async (req,res)=>{
     }
 
 }
-  module.exports={addClient,loginClient}
+
+
+const getClientById=async (req, res) => {
+  try {
+    const id = req.params.id;
+    const client=await Client.findOne({id:id})
+    if(client){
+      res.status(200).json({
+        message:"success",
+        client:client
+      })
+    }else{
+      console.log("failed");
+      res.status(400).json({
+        status:"failed",
+          message:"client doens't exist"
+      });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+        message:"Server Error!"
+    });
+  }
+}
+  module.exports={addClient,loginClient,getClientById}

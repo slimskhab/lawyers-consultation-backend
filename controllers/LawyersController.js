@@ -122,4 +122,28 @@ const getTopLawyers = async (req, res) => {
   }
 };
 
-  module.exports={addLawyer,loginLawyer,getOneLawyer,getTopLawyers}
+
+const getLawyerById=async (req, res) => {
+  try {
+    const id = req.params.id;
+    const lawyer=await Laywer.findOne({id:id})
+    if(lawyer){
+      res.status(200).json({
+        message:"success",
+        lawyer:lawyer
+      })
+    }else{
+      res.status(400).json({
+        status:"failed",
+          message:"lawyer doens't exist"
+      });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+        message:"Server Error!"
+    });
+  }
+}
+  module.exports={addLawyer,loginLawyer,getOneLawyer,getTopLawyers,getLawyerById}

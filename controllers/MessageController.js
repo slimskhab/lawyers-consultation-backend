@@ -2,8 +2,7 @@ const Message = require("../models/messageModel");
 const Counter=require("../models/counterModel")
 const allMessages = async (req, res) => {
   try {
-    const messages = await Message.find({ chat: req.params.chatId })
-
+    const messages = await Message.find({ chatId: req.params.id })
     res.json(messages);
   } catch (error) {
     res.status(400);
