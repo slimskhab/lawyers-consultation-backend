@@ -17,7 +17,24 @@ const messageModel = mongoose.Schema(
         chatId:{
             type:Number,
             required:true,
+        },
+        isContract:{
+            type:Boolean,
+        },
+        contractStartDate:{
+            type:Date
+        },
+        contractEndDate:{
+            type:Date
+        },
+        contractFee:{
+            type:Number
+        },
+        contractStatus:{
+            type:Number,
+            default:0
         }
+        
         
     },
     { timestamps: true }

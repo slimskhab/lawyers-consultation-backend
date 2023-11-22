@@ -60,19 +60,23 @@ io.on("connection", (socket) => {
   })
 
 
-socket.on("typing",(room)=>
-  socket.in(room).emit("typing")
-)
+  socket.on("typing", (room) =>
+    socket.in(room).emit("typing")
+  )
 
-socket.on("stop typing",(room)=>
-  socket.in(room).emit("stop typing")
-)
+  socket.on("stop typing", (room) =>
+    socket.in(room).emit("stop typing")
+  )
 
   socket.on("new message", async (newMessage) => {
     var chatId = newMessage.chatId;
     var chat = await Chat.findOne({ id: chatId });
     var user = chat.users.find((e) => e !== newMessage.senderId)
+    console.log(newMessage);
+    console.log("sending it to this user : "+user);
     socket.in(user).emit("message received", newMessage)
   })
+
+
 })
 

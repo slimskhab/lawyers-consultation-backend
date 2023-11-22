@@ -13,6 +13,10 @@ const lawyerSchema=mongoose.Schema({
         type:String,
         required: true
     },
+    profilePic:{
+        type:String,
+        required:true
+    },
     email:{
         type:String,
         required:true,

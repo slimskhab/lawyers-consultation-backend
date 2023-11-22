@@ -1,5 +1,5 @@
 const Chat=require("../models/chatModel");
-const Counter=require("../models/counterModel")
+const Counter=require("../models/counterModel");
 
 const accessChat=async(req,res)=>{
     try{
@@ -16,7 +16,6 @@ const accessChat=async(req,res)=>{
 
     
         if(isChat){
-
             res.status(200).json({status:"success",message:"found chat",chat:isChat})
         }else{
             const counter = await Counter.findOneAndUpdate(

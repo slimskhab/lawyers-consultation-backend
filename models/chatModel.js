@@ -10,6 +10,9 @@ const chatModel = mongoose.Schema(
             { type: Number,required:true, },
             
         ],
+        latestMessage: {
+            type: String,
+        },
         
     },
     { timestamps: true }
