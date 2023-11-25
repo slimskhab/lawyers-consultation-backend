@@ -39,7 +39,7 @@ const lawyerSchema=mongoose.Schema({
     }
 
 
-})
+} ,{ timestamps: true })
 
 
 const Lawyer=mongoose.model("Lawyer",lawyerSchema)

@@ -4,8 +4,9 @@ const router=express.Router();
 
 
 const{
-  addLawyer,loginLawyer,getOneLawyer, getTopLawyers,getLawyerById, getAllLawyers
+  addLawyer,loginLawyer,getOneLawyer, getTopLawyers,getLawyerById, getAllLawyers, getNotVerrifiedLawyers, updateUser
 } = require("../controllers/LawyersController")
+router.get("/notverrified",getNotVerrifiedLawyers);
 
 router.get("/:id",getOneLawyer)
 router.get("/find/:id",getLawyerById)
@@ -15,10 +16,7 @@ router.post("/",getTopLawyers)
 router.post("/login",loginLawyer);
 
 router.post("/signup",addLawyer);
-
-router.patch("/:id",(req,res)=>{
-
-})
+router.put("/update/:id",updateUser)
 
 
 
