@@ -40,6 +40,8 @@ const loginLawyer=async (req,res)=>{
         const { email, password } = req.body;
 
         const lawyer = await Lawyer.findOne({ email });
+      
+
 
         if (!lawyer) {
             return res.status(401).json({
@@ -47,6 +49,13 @@ const loginLawyer=async (req,res)=>{
                 message: "Invalid email or password",
             });
         }
+
+        if (lawyer.accountStatus===0) {
+          return res.status(401).json({
+              status: "fail",
+              message: "Account not verified",
+          });
+      }
 
         const passwordMatch = await bcrypt.compare(password, lawyer.password);
 
