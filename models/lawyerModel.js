@@ -36,10 +36,13 @@ const lawyerSchema=mongoose.Schema({
     category:{
         type:String,
         required:true
+    },
+    accountStatus:{
+        type:Number,
+        default:0
     }
 
-
-})
+} ,{ timestamps: true })
 
 
 const Lawyer=mongoose.model("Lawyer",lawyerSchema)
