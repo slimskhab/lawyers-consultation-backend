@@ -18,7 +18,8 @@ const addLawyer=async (req, res) => {
         id: counter.seq,
         email:req.body.email,
         password:hashedPassword,
-        profilePic:req.body.profilePic
+        profilePic:req.body.profilePic,
+        category:req.body.category,
       });
   
       await lawyer.save();
@@ -60,7 +61,8 @@ const loginLawyer=async (req,res)=>{
                     lastName:lawyer.lastName,
                     email: lawyer.email,
                     bio:lawyer.bio,
-                    profilePic:lawyer.profilePic
+                    profilePic:lawyer.profilePic,
+                    category:lawyer.category
                 },
             });
         } else {

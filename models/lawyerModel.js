@@ -33,6 +33,10 @@ const lawyerSchema=mongoose.Schema({
         type:Number,
         required: false
     },
+    category:{
+        type:String,
+        required:true
+    }
 
 
 })
