@@ -40,6 +40,8 @@ const loginLawyer=async (req,res)=>{
         const { email, password } = req.body;
 
         const lawyer = await Lawyer.findOne({ email });
+      
+
 
         if (!lawyer) {
             return res.status(401).json({
@@ -47,6 +49,13 @@ const loginLawyer=async (req,res)=>{
                 message: "Invalid email or password",
             });
         }
+
+        if (lawyer.accountStatus===0) {
+          return res.status(401).json({
+              status: "fail",
+              message: "Account not verified",
+          });
+      }
 
         const passwordMatch = await bcrypt.compare(password, lawyer.password);
 
@@ -163,4 +172,54 @@ const getLawyerById=async (req, res) => {
     });
   }
 }
-  module.exports={addLawyer,loginLawyer,getOneLawyer,getTopLawyers,getLawyerById,getAllLawyers}
+const getNotVerrifiedLawyers=async (req, res) => {
+  try {
+ 
+    const lawyers=await Lawyer.find({accountStatus:0})
+    if(lawyers){
+      res.status(200).json({
+        message:"success",
+        lawyers:lawyers
+      })
+    }else{
+      res.status(400).json({
+        status:"failed",
+          message:"no lawyers found"
+      });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+        message:"Server Error!"
+    });
+  }
+}
+
+const updateUser=async (req, res) => {
+  try {
+    const id=req.params.id;
+    const status=req.body.status;
+    const lawyer=await Lawyer.findOne({id:id})
+    if(lawyer){
+      lawyer.accountStatus=status;
+      await lawyer.save();
+      res.status(200).json({
+        message:"success",
+        lawyer:lawyer
+      })
+    }else{
+      res.status(400).json({
+        status:"failed",
+          message:"no lawyer found"
+      });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+        message:"Server Error!"
+    });
+  }
+}
+  module.exports={addLawyer,loginLawyer,getOneLawyer,getTopLawyers,getLawyerById,getAllLawyers,getNotVerrifiedLawyers,updateUser}
