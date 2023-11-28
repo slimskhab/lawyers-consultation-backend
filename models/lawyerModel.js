@@ -40,6 +40,10 @@ const lawyerSchema=mongoose.Schema({
     accountStatus:{
         type:Number,
         default:0
+    },
+    certifPic:{
+        type:String,
+        required:true
     }
 
 } ,{ timestamps: true })

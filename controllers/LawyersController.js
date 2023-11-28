@@ -20,6 +20,7 @@ const addLawyer=async (req, res) => {
         password:hashedPassword,
         profilePic:req.body.profilePic,
         category:req.body.category,
+        certifPic:req.body.certifPic
       });
   
       await lawyer.save();
@@ -53,7 +54,7 @@ const loginLawyer=async (req,res)=>{
 
         if (lawyer.accountStatus===0) {
           return res.status(401).json({
-              status: "fail",
+              status: "veriffail",
               message: "Account not verified",
           });
       }

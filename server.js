@@ -36,6 +36,9 @@ const messageRouter = require("./routes/MessageRoutes");
 const Chat = require("./models/chatModel");
 app.use("/message", messageRouter)
 
+const paymentMethod = require("./routes/PaymentMethodRoutes")
+app.use("/paymentmethod", paymentMethod)
+
 const server = app.listen(process.env.PORT, () => {
   console.log(`server started on port ${process.env.PORT}`);
 })
