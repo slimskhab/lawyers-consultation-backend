@@ -4,7 +4,7 @@ const Chat = require("../models/chatModel");
 
 const allMessages = async (req, res) => {
   try {
-    const messages = await Message.find({ chatId: req.params.id })
+    const messages = await Message.find({ chatId: req.params.id }).sort({ updatedAt: 'asc' }); // or 'desc' for descending order
     res.json(messages);
   } catch (error) {
     res.status(400);
@@ -82,6 +82,8 @@ const changeContractStatus = async (req, res) => {
         contractFee:contractFee
       }
     }, { new: true })
+
+
     res.status(200).json({
       status: "success",
       message: updatedMessage,
@@ -97,10 +99,8 @@ const changeContractStatus = async (req, res) => {
 
 const deleteMessage=async (req, res) => {
   const messageId = Number(req.params.id);
-console.log(messageId);
   try {
     const deletedMessage = await Message.findOneAndDelete({id:messageId});
-console.log(deletedMessage);
     if (deletedMessage) {
       res.status(200).json({ message: 'Message deleted successfully', deletedMessage });
     } else {
@@ -111,4 +111,15 @@ console.log(deletedMessage);
   }
 };
 
-module.exports = { allMessages, sendMessage, changeContractStatus,deleteMessage };
+const getContracts=async (req, res) => {
+  try {
+    const chatId=req.params.id;
+    const contracts = await Message.find({chatId:chatId,isContract:true,contractStatus:2});
+      res.status(200).json({ status: 'Success', contracts:contracts });
+   
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+};
+
+module.exports = { allMessages, sendMessage, changeContractStatus,deleteMessage,getContracts };

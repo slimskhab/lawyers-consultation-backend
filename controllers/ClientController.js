@@ -52,12 +52,7 @@ const loginClient=async (req,res)=>{
             res.status(200).json({
                 status: "success",
                 message: "Login successful",
-                client: {
-                    id: client.id,
-                    firstName: client.firstName,
-                    lastName:client.lastName,
-                    email: client.email,
-                },
+                client: client,
             });
         } else {
             res.status(401).json({
@@ -98,4 +93,41 @@ const getClientById=async (req, res) => {
     });
   }
 }
-  module.exports={addClient,loginClient,getClientById}
+const addFunds = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const oldClient = await Client.findOne({ id: id });
+    if(oldClient){
+      const newSolde=oldClient.funds+req.body.funds;
+      const client = await Client.findOneAndUpdate({
+        id: id
+      }, {
+        $set: {
+          funds: newSolde
+        }
+      },{new:true})
+      res.status(200).json({status:"success",client:client});
+    }else{
+      res.status(404).json({status:"failed",message:"client doesn't exist"});
+
+    }
+    
+  } catch (e) {
+    res.status(500).json({status:"failed"});
+
+  }
+}
+
+const setFunds=async(req,res)=>{
+  try{
+const client=await Client.findOneAndUpdate({id:req.body.userId},{$set:{
+  funds:req.body.funds
+}},{new:true})
+res.status(200).json({status:"success",client:client})
+  }catch(e){
+    res.status(500).json({status:"failed",message:"Server Error"})
+
+  }
+}
+
+  module.exports={addClient,loginClient,getClientById,addFunds,setFunds}

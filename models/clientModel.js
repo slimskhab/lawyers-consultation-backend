@@ -21,6 +21,10 @@ const clientSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    funds:{
+        type:Number,
+        default:0
+    }
 
 
 })

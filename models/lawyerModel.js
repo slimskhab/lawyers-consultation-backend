@@ -44,6 +44,11 @@ const lawyerSchema=mongoose.Schema({
     certifPic:{
         type:String,
         required:true
+    },
+    funds:{
+        type:Number,
+        required:true,
+        default:0
     }
 
 } ,{ timestamps: true })
