@@ -1,4 +1,5 @@
 
+const Review = require("../models/ReviewModel");
 const Counter = require("../models/counterModel")
 const Lawyer = require("../models/lawyerModel")
 const bcrypt = require("bcrypt")
@@ -113,7 +114,7 @@ const getOneLawyer = async (req, res) => {
 
 const getAllLawyers = async (req, res) => {
   try {
-    const lawyers = await Lawyer.find();
+    const lawyers = await Lawyer.find({accountStatus:1});
     res.status(200).json({
       status: "success",
       lawyers: lawyers,
@@ -129,19 +130,40 @@ const getAllLawyers = async (req, res) => {
 
 const getTopLawyers = async (req, res) => {
   try {
-    const topLawyers = await Lawyer.find({ rating: { $exists: true } }).sort({ reviews: -1 }).limit(req.body.limit);
+      // Find all lawyers
+      const lawyers = await Lawyer.find();
 
-    res.status(200).json({
-      status: "success",
-      lawyers: topLawyers,
-    });
+      // Calculate the average stars for each lawyer
+      const lawyersWithAverageStars = await Promise.all(
+          lawyers.map(async (lawyer) => {
+              const reviews = await Review.find({ lawyerId: lawyer.id });
+              const totalStars = reviews.reduce((acc, review) => acc + review.stars, 0);
+              const averageStars = reviews.length > 0 ? totalStars / reviews.length : 0;
+
+              return {
+                  ...lawyer.toObject(),
+                  averageStars: averageStars,
+              };
+          })
+      );
+
+      // Sort lawyers by averageStars in descending order
+      const topLawyers = lawyersWithAverageStars.sort((a, b) => b.averageStars - a.averageStars);
+
+      const top3Lawyers = topLawyers.slice(0, 3);
+
+        res.status(200).json({
+            status: "success",
+            topLawyers: top3Lawyers,
+        });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Server Error!",
-    });
+      console.error(error);
+      res.status(500).json({
+          message: "Server Error!",
+      });
   }
 };
+
 
 
 const getLawyerById = async (req, res) => {

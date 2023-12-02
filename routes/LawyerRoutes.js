@@ -10,7 +10,7 @@ router.get("/notverrified",getNotVerrifiedLawyers);
 router.get("/:id",getOneLawyer)
 router.get("/find/:id",getLawyerById)
 router.get("/",getAllLawyers)
-router.post("/",getTopLawyers)
+router.post("/top",getTopLawyers)
 router.post("/login",loginLawyer);
 router.post("/signup",addLawyer);
 router.put("/update/:id",updateUser);

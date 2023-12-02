@@ -39,6 +39,9 @@ app.use("/message", messageRouter)
 const paymentMethod = require("./routes/PaymentMethodRoutes")
 app.use("/paymentmethod", paymentMethod)
 
+const reviewRouter = require("./routes/ReviewRoutes")
+app.use("/review", reviewRouter)
+
 const server = app.listen(process.env.PORT, () => {
   console.log(`server started on port ${process.env.PORT}`);
 })
