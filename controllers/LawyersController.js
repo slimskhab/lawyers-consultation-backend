@@ -131,7 +131,7 @@ const getAllLawyers = async (req, res) => {
 const getTopLawyers = async (req, res) => {
   try {
       // Find all lawyers
-      const lawyers = await Lawyer.find();
+      const lawyers = await Lawyer.find({accountStatus:1});
 
       // Calculate the average stars for each lawyer
       const lawyersWithAverageStars = await Promise.all(
