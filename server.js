@@ -4,10 +4,18 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const dotenv = require("dotenv");
 const socket = require("socket.io");
+const path  = require('path')
 
 dotenv.config();
 app.use(express.json());
 app.use(cors());
+
+
+const _dirname = path.dirname("")
+const buildPath = path.join(_dirname  , "../client/build");
+
+app.use(express.static(buildPath))
+
 
 
 mongoose.connect(process.env.DBURI);
@@ -44,6 +52,19 @@ app.use("/review", reviewRouter)
 
 const reportRouter = require("./routes/ReportRoutes")
 app.use("/report", reportRouter)
+
+app.get("/*", function(req, res){
+
+  res.sendFile(
+      path.join(__dirname, "../client/build/index.html"),
+      function (err) {
+        if (err) {
+          res.status(500).send(err);
+        }
+      }
+    );
+
+})
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`server started on port ${process.env.PORT}`);
